@@ -104,7 +104,7 @@ for itin in itineraries[1:]:
     square = get_square(itin, 8)
     # Load the character's icon based on filename cell
     character_icons[itin[0]] = {
-        IMG: ImageTk.PhotoImage(Image.open(itin[1] + '.png').resize((imscale,imscale), Image.LANCZOS)),
+        IMG: ImageTk.PhotoImage(Image.open("assets/" + itin[1] + '.png').resize((imscale,imscale), Image.LANCZOS)),
         "grid": square}
     
     # print("Image is {}, id is {}".format(type(icon), id(icon)))
