@@ -158,33 +158,24 @@ def whereYall(time):
     if time > 24:
         raise IndexError("That's too late.")
     fig.clear()
-    ax = fig.add_subplot(111, projection = '3d', )
-    pos = []
-    # Plot a line for each party:
-    output = ""
+    latest_report = []
     reports = []
     for p in parties:
-        latest_report = branch[p][0]
-        additional_reports = []
+        latest_report = branch[p][0][:]
         # find latest Time before or equal to desired time
         for line in branch[p]:
             if line[0] <= time:
-                # this entry is from earlier than the desired time. It's valid.
-                # if this reading of the location is earlier in the day than the requested time:
-                # if line[0] == latest_report[0]:
-                #     # If we already have a reading at the desired time, we're working on the Spohrlor,
-                #     # which can be multiple places at once. Dealt with specially.
-                #     additional_reports.append(line)
-                # else:
                 if line[0] > latest_report[0]:
                     # This is the latest time we've found so far.
                     latest_report = line
         # Add the name of the party to the end of the report to keep things clear
-        latest_report.append(p)
+        
         reports.append(latest_report)
+        reports[-1].append(p)
     return reports
 
 def island_state(time):
+    reports = []
     reports = whereYall(time)
     string_output = ''
     for entry in reports:
@@ -279,7 +270,7 @@ def spohrlor_manifest(month):
     readies = ready_today(month)
     sleeping = np.array([a for a in array if not(a[0] in readies[:,0])])
     for item in set(list(array[:,3])):
-        print("At {}: {} spohrlors hybernating and {} that woke up this morning.".format(\
+        print("At {}: \t\t {} spohrlors hybernating and \t\t {} that woke up this morning.".format(\
             item, list(sleeping[:,3]).count(item), list(readies[:,3]).count(item)))
 
 
